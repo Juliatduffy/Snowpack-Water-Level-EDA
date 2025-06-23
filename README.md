@@ -6,7 +6,7 @@
 **Institution:** University of Utah  
 
 **Notebook:** [FINAL_PROJECT.ipynb](FINAL_PROJECT.ipynb)  
-**Colab link:** [https://colab.research.google.com/drive/1fOIxD389hL0qJZhHIHht_OV5O52PTJ9W](https://colab.research.google.com/drive/1fOIxD389hL0qJZhHIHht_OV5O52PTJ9W?usp=sharing)
+**Colab link:** [FINAL_PROJECT_GOOGLE_COLAB](https://colab.research.google.com/drive/1fOIxD389hL0qJZhHIHht_OV5O52PTJ9W?usp=sharing)
 
 ---
 
