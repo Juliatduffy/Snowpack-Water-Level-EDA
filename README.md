@@ -13,84 +13,74 @@
 ## Table of Contents
 
 1. [Abstract](#abstract)  
-2. [Questions](#questions)  
-3. [Data Sources & Cleaning](#data-sources--cleaning)  
-4. [Methods & Visualizations](#methods--visualizations)  
-5. [Statistical Tests](#statistical-tests)  
-6. [Results & Findings](#results--findings)  
-7. [Limitations](#limitations)  
-8. [Conclusion](#conclusion)  
-9. [Project Structure](#project-structure)  
-10. [Dependencies & Usage](#dependencies--usage)  
-11. [License](#license)  
+2. [Introduction](#introduction)  
+3. [Central Question](#central-question)  
+4. [Data Sources](#data-sources)  
+5. [Data Retrieval & Cleaning](#data-retrieval--cleaning)  
+6. [Visualizations](#visualizations)  
+7. [Statistical Tests](#statistical-tests)  
+8. [Limitations](#limitations)  
+9. [Conclusion](#conclusion)  
+10. [Sources](#sources)  
 
 ---
----
 
-## Abstract  
-This project seeks to compare the impact of various factors on water levels in the Great Salt Lake. In this analysis, daily snow water equivalent (SWE) measurements from the mountains and daily precipitation records from Salt Lake County are paired with lake-level data from 01-01-2000 through 01-01-2025 to identify which variable has the strongest effect on lake elevation in the Great Salt Lake. This EDA uses several different analysis techniques, such as a lagged correlation analysis, linear regression analysis, normality test, and Pearson correlation test. It was found that snowfall in the mountains has a very weak but significant relationship to water levels in the Great Salt Lake. Introducing a time delay of 70 days maximized the correlation between SWE levels and water levels in the lake. Precipitation and SWE seemed to have no immediate impact on water levels in the lake. :contentReference[oaicite:1]{index=1}
+## Abstract
 
-## Introduction  
-It is no secret that water levels in the Great Salt Lake have been steadily declining over the past few decades. As the shoreline retreats, more and more of the lakebed has been exposed, leaving fine dust, minerals, and salt on the surface. When the winds kick up, that fine dust is kicked into the air, and tiny particles drift into nearby towns. This has posed a serious health threat to the general public, and the situation is only worsening. Because the lake collects runoff from across Utah, those dust clouds often carry pesticides, arsenic, selenium, and other toxins as well. :contentReference[oaicite:2]{index=2}
+This project seeks to compare the impact of snow water equivalent (SWE) from the mountains and precipitation in Salt Lake County on Great Salt Lake levels from 01-01-2000 to 01-01-2025. Using lagged correlation, linear regression, normality tests, and Pearson correlation, we find that mountain snowfall has a weak but significant relationship to lake elevation—maximized at a 70-day delay—while same-day SWE and precipitation show no immediate effect.
 
-## Central Question  
-The goal of this analysis is to better understand what factors affect water levels in the Great Salt Lake and how long it takes for snowmelt in the mountains to replenish the lake. This analysis asks two central questions:
-1. Which variable has the stronger relationship to Great Salt Lake elevation—mountain snowpack (SWE) or Salt Lake County precipitation?  
-2. Is there a clear time lag between increases in snowpack and subsequent rises in the Great Salt Lake? :contentReference[oaicite:3]{index=3}
+## Introduction
 
-## Data Sources  
-Data for this analysis was sourced from the U.S. Department of Agriculture NRCS SNOTEL Data as well as the Great Salt Lake Hydro Mapper (USGS). All three datasets span January 1, 2000 to January 1, 2025. The three datasets used were:  
-- **Brighton SNOTEL SWE:** Daily snow‐water equivalent (inches) from USDA NRCS mountain stations; measures the water contained in snowpack.  
-- **Salt Lake County Precipitation:** Daily rainfall accumulation (inches) from a SNOTEL station near the lake’s southern shore.  
-- **Great Salt Lake Elevation:** Daily water level (ft) from USGS Hydro Mapper. :contentReference[oaicite:4]{index=4}
+Great Salt Lake levels have steadily declined over recent decades, exposing lakebed dust loaded with pesticides, arsenic, selenium, and other toxins. When winds pick up, these particles drift into nearby communities, posing a growing public-health risk. Understanding how snowmelt and rainfall influence lake elevation can inform better water management and dust-control strategies.
 
-## Data Retrieval and Cleaning  
-All three CSVs were downloaded and uploaded to GitHub. No missing values required interpolation. Cleaning steps:  
-1. Parse `Date` as datetime.  
-2. Rename columns for clarity; drop unnecessary fields.  
-3. Inner-join on `Date`.  
-After merging, no missing values remained, and no imputation was necessary. :contentReference[oaicite:5]{index=5}
+## Central Question
+
+What drives Great Salt Lake elevation, and how long does it take mountain snowmelt to reach the lake?
+1. Which variable has the stronger relationship to lake levels—mountain SWE or Salt Lake County precipitation?  
+2. Is there a clear time lag between snowpack peaks and subsequent rises in the lake?
+
+## Data Sources
+
+All data span January 1, 2000 to January 1, 2025:
+- **Brighton SNOTEL SWE** (USDA NRCS): Daily snow-water equivalent (inches) measuring water contained in the snowpack.  
+- **Salt Lake County Precipitation** (USDA NRCS): Daily rainfall accumulation (inches) near the lake’s southern shore.  
+- **Great Salt Lake Elevation** (USGS Hydro Mapper): Daily lake-level (ft) measurements.
+
+## Data Retrieval & Cleaning
+
+1. Download CSVs and parse `Date` as datetime.  
+2. Rename columns, drop unused fields.  
+3. Inner-join all three datasets on `Date`.  
+4. Confirm zero missing values—no interpolation needed.
 
 ## Visualizations
 
-### Visualization 1: Full-Period Time Series Line Graph  
-Shows long-term trends and seasonality: SWE peaks each spring, lake level peaks mid-summer, and a clear 25-year decline in lake elevation; SWE declines appear steeper than lake levels. :contentReference[oaicite:6]{index=6}
-
-### Visualization 2: 2024 Time Series Line Graph  
-Zooms into a single year to illustrate how introducing time delays changes the SWE–lake relationship, guiding identification of the optimal lag. :contentReference[oaicite:7]{index=7}
-
-### Visualization 3: Lag-Correlation Graph  
-Plots Pearson _r_ for delays from 0–360 days (10-day steps); the highest correlation occurs at a 70-day lag. :contentReference[oaicite:8]{index=8}
-
-### Visualization 4: No-Lag Scatter Plot and Regression Line  
-SWE vs. lake elevation for the same date, with an OLS fit. Wide variance and near-flat slope indicate a negligible same-day correlation. :contentReference[oaicite:9]{index=9}
-
-### Visualization 5: 70-Day Lag Scatter Plot and Regression Line  
-SWE shifted 70 days earlier vs. lake elevation today, with OLS fit. Tighter clustering and steeper slope confirm the modest improvement in correlation. :contentReference[oaicite:10]{index=10}
-
-### Visualization 6: Precipitation vs. Lake Level Scatter Plot and Regression Line  
-Daily precipitation vs. lake elevation, with OLS fit showing a slight negative slope and effectively zero explanatory power. :contentReference[oaicite:11]{index=11}
+1. **Full-Period Time Series:** Trends & seasonality—SWE peaks each spring; lake peaks mid-summer; both show multi-decade decline.  
+2. **2024 Time Series:** Zoom on one year to illustrate lag effects.  
+3. **Lag-Correlation Plot:** Pearson _r_ for 0–360-day delays (10-day steps); peak at 70 days.  
+4. **No-Lag Scatter & Regression:** SWE vs. lake level same day; OLS fit shows near-flat slope.  
+5. **70-Day Lag Scatter & Regression:** SWE shifted 70 days earlier vs. lake level; OLS fit shows steeper slope.  
+6. **Precipitation vs. Lake Level:** Same-day scatter & regression; slight negative slope, no real correlation.
 
 ## Statistical Tests
 
-### Correlation Testing to Determine Time Delay  
-A series of Pearson correlation tests (lag 0–360 days) found the maximum _r_≈0.199 at 70 days (p≈0), indicating a weak but statistically significant delayed effect. :contentReference[oaicite:12]{index=12}
+- **Lagged Pearson Correlation:** _r_≈0.20 at 70 days (p≈0) → weak but significant.  
+- **No-Lag Regression:** slope≈0.01 ft/in, _R²_≈0.001 → negligible.  
+- **70-Day Lag Regression:** slope≈0.06 ft/in, _R²_≈0.04 → small improvement.  
+- **Precipitation Regression:** slope≈–0.13 ft/in, _R²_≈0 → no predictive value.
 
-### Regression Modeling To Determine Relationships Between Variables  
-- **No Lag:** Slope ≈ 0.01 ft/in, intercept 4,195.12 ft, _R²_≈0.001—no meaningful same-day predictive power.  
-- **70-Day Lag:** Slope ≈ 0.06 ft/in, intercept 4,194.72 ft, _R²_≈0.04—small improvement, still weak.  
-- **Precipitation:** Slope ≈ –0.13 ft/in, intercept 4,195.20 ft, _R²_≈0—no predictive value. :contentReference[oaicite:13]{index=13}
+## Limitations
 
-## Limitations  
-- SWE from only one SNOTEL (Brighton) and precipitation from one station—limited geographic scope.  
-- Excludes evaporation, groundwater use, diversions, and climate-change factors.  
-- Assumes historical stationarity in water management and climate practices.  
-- Great Salt Lake’s urban context and multifaceted use may disrupt natural hydrologic inputs. :contentReference[oaicite:14]{index=14}
+- SWE from only one SNOTEL station and precipitation from one site—limited representativeness.  
+- Excludes evaporation, groundwater, diversions, and climate-change factors.  
+- Assumes historical stationarity in water management and climate practices.
 
-## Conclusion  
-Mountain SWE exhibits a modest but statistically significant influence on Great Salt Lake levels after a ~70-day delay. Immediate SWE and local precipitation show virtually no relationship. Despite limitations, these findings highlight the delayed hydrologic link between snowpack and lake elevation. :contentReference[oaicite:15]{index=15}
+## Conclusion
 
-## Sources  
+Mountain SWE has a modest delayed effect (~70 days) on Great Salt Lake levels. Immediate snowpack and local rainfall offer virtually no predictive power. Despite limitations, these findings highlight the nuanced timing of snowmelt contributions to lake elevation.
+
+## Sources
+
 - https://wcc.sc.egov.usda.gov/nwcc/sensors  
 - https://www.sltrib.com/news/environment/2019/02/16/utah-snowpack-packed-with/  
 - https://www.nrcs.usda.gov/utah/snow-survey  
